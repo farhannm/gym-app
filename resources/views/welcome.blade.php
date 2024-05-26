@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+        <title>Gymnation</title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -614,9 +614,9 @@
 
         <!-- Sign in Form -->
         <section class="sign-in">
-            <div class="container">
+            <div class="container" style="padding: 30px">
                 <div class="signin-content">
-                    <img style="width: 50%; margin: 20px auto;" src="{{ asset('images/fitnes.svg') }}" alt="sing up image">
+                    <img style="width: 40%; margin: 20px auto;" src="{{ asset('images/fitnes.svg') }}" alt="sing up image">
                 </div>
 
                 @if (Route::has('login'))

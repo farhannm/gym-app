@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Gymnation - Dashboard</title>
+    <title>Gymnation - Coach</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -108,7 +108,7 @@
                     
                     <!-- Page Heading -->
                     <div class="w-full d-sm-flex align-items-center">
-                        <h1 class="h3 mb-0 text-gray-800" style="float: inline-start">Dashboard</h1>
+                        <h1 class="h3 mb-0 text-gray-800" style="float: inline-start">Coach (Trainer)</h1>
                     </div>
                     
 
@@ -180,8 +180,31 @@
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-
-                    <img src="../images/landing.png" alt="Gymnation" style="width: auto; height: 550px; margin-left: 180px">
+                    <div class="table-responsive">
+                        <div class="table-wrapper">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Phone</th>
+                                        <th>Specialization</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($trainers as $key => $trainer)
+                                    <tr>
+                                        <td>{{ $key + 1 }}</td>
+                                        <td>{{ $trainer->name }}</td>
+                                        <td>{{ $trainer->email }}</td>
+                                        <td>{{ $trainer->phone }}</td>
+                                        <td>{{ $trainer->specialization }}</td>
+                                    </tr>
+                                    @endforeach     
+                                </tbody>
+                            </table>
+                        </div>
                 </div>
                         
 

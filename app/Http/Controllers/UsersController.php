@@ -2,8 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Classes;
+use App\Models\Equipment;
+use App\Models\Payment;
+use App\Models\Reservations;
+use App\Models\Trainer;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UsersController extends Controller
 {
@@ -13,6 +19,38 @@ class UsersController extends Controller
     public function index()
     {
         return view('dashboard');
+    }
+
+    public function viewReservation()
+    {
+        // Get the currently logged-in user
+        $user = Auth::user();
+
+         // Get all payments made by the logged-in user
+         $payments = Payment::where('user_id', $user->id)->get();
+
+        // Get all reservations made by the logged-in user, along with the associated class, trainer, and payment
+        $reservations = Reservations::where('user_id', $user->id)->with(['class.trainer', 'payment'])->get();
+
+        // Pass the reservations and payments to the view
+        return view('reservation', [
+            'reservations' => $reservations,
+            'payments' => $payments
+        ]);
+    }
+
+    public function viewCoach()
+    {
+        $trainers = Trainer::all();
+        
+        return view('coach', compact('trainers'));
+    }
+
+    public function viewEquipments()
+    {
+        $equipments = Equipment::all();
+
+        return view('equipment', compact('equipments'));
     }
 
     /**

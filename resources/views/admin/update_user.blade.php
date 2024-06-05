@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Insert New User</title>
+    <title>Update User</title>
 
     <!-- Font Icon -->
     <link rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css">
@@ -14,7 +14,7 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const form = document.getElementById('register-form');
+            const form = document.getElementById('update');
             form.addEventListener('submit', function(event) {
                 // Menghentikan pengiriman form
                 event.preventDefault();
@@ -89,31 +89,27 @@
                     </div>
     
                     <div class="signup-form">
-                        <h2 class="form-title">Insert New User</h2>
-                        <form method="POST" class="register-form" id="register-form" action="{{ route('admin.insert_user') }}">
+                        <h2 class="form-title">Update Data User</h2>
+                        <form method="POST" class="register-form" id="register-form" action="{{ route('admin.update_user', $user->id) }}">
                             @csrf
+                            @method('PUT')
                             <div class="form-group">
                                 <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                                <input type="text" name="name" id="name" placeholder="Name" required/>
+                                <input type="text" name="name" value="{{ old('name', $user->name) }}" id="name" placeholder="Name" required/>
                                 <span class="error" id="name-error"></span>
                             </div>
                             <div class="form-group">
                                 <label for="email"><i class="zmdi zmdi-email"></i></label>
-                                <input type="email" name="email" id="email" placeholder="Email" required/>
+                                <input type="email" name="email" value="{{ old('name', $user->email) }}" id="email" placeholder="Email" required/>
                                 <span class="error" id="email-error"></span>
                             </div>
                             <div class="form-group">
-                                <label for="password"><i class="zmdi zmdi-lock"></i></label>
-                                <input type="password" name="password" id="password" placeholder="Password" required/>
-                                <span class="error" id="password-error"></span>
-                            </div>
-                            <div class="form-group">
-                                <label for="password-confirm"><i class="zmdi zmdi-lock-outline"></i></label>
-                                <input type="password" name="password_confirmation" id="password-confirm" placeholder="Confirm Password" required/>
-                                <span class="error" id="password-confirm-error"></span>
+                                <label for="role"><i class="zmdi zmdi-email"></i></label>
+                                <input type="text" name="role" value="{{ old('name', $user->role) }}" placeholder="Role" required/>
+                                <span class="error" id="email-error"></span>
                             </div>
                             <div class="form-group form-button">
-                                <input type="submit" name="signup" id="signup" class="form-submit" value="Insert"/>
+                                <input type="submit" name="update" id="update" class="form-submit" value="Update"/>
                             </div>
                         </form>
                     </div>

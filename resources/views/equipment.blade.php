@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Gymnation - Dashboard</title>
+    <title>Gymnation - Equipments</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -108,7 +108,7 @@
                     
                     <!-- Page Heading -->
                     <div class="w-full d-sm-flex align-items-center">
-                        <h1 class="h3 mb-0 text-gray-800" style="float: inline-start">Dashboard</h1>
+                        <h1 class="h3 mb-0 text-gray-800" style="float: inline-start">Equipments</h1>
                     </div>
                     
 
@@ -180,8 +180,43 @@
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-
-                    <img src="../images/landing.png" alt="Gymnation" style="width: auto; height: 550px; margin-left: 180px">
+                    
+                    @if ($equipments->isEmpty())
+                        <p style="font-size: 12px" class="text-warning">[!] No data available</p>
+                    @else
+                        <div class="table-responsive">
+                            <div class="table-wrapper">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Name</th>
+                                            <th>Status</th>
+                                            <th>Purchase Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($equipments as $key => $e)
+                                        <tr>
+                                            <td>{{ $key + 1 }}</td> <!-- Incremental number starting from 1 -->
+                                            <td>{{ $e->name }}</td>
+                                            @php
+                                                $statusEquipment = '';
+                                                if ($e->status == 'Available') {
+                                                    $statusEquipment = 'text-success';
+                                                } else {
+                                                    $statusEquipment = 'text-danger';
+                                                }
+                                            @endphp
+                                            <td><span class="{{ $statusEquipment }}">{{ $e->status }}</span></td>
+                                            <td>{{ $e->purchase_date }}</td>
+                                        </tr>
+                                        @endforeach     
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>  
+                    @endif  
                 </div>
                         
 

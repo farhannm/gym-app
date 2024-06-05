@@ -26,6 +26,6 @@ class Classes extends Model
 
     public function reservations()
     {
-        return $this->hasMany(Reservations::class, 'class_id');
+        return $this->hasMany(Reservations::class, 'id');
     }
 }

@@ -19,11 +19,16 @@ class Reservations extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'id');
     }
 
     public function class()
     {
-        return $this->belongsTo(Classes::class, 'class_id');
+        return $this->belongsTo(Classes::class, 'id');
+    }
+
+    public function payment()
+    {
+        return $this->belongsTo(Payment::class, 'id');
     }
 }

@@ -22,4 +22,9 @@ class Payment extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    public function reservations()
+    {
+        return $this->hasMany(Reservations::class, 'payment_id');
+    }
 }

@@ -9,11 +9,17 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Gymnation - User</title>
+    <title>Gymnation - Payments</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
 
     <!-- Custom styles for this template-->
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
-    
+
 </head>
 
 <body id="page-top">
@@ -41,6 +47,7 @@
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
+
 
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('admin.user') }}">
@@ -107,36 +114,13 @@
                     
                     <!-- Page Heading -->
                     <div class="w-full d-sm-flex align-items-center">
-                        <h1 class="h3 mb-0 text-gray-800" style="float: inline-start">User (Pengguna)</h1>
+                        <h1 class="h3 mb-0 text-gray-800" style="float: inline-start">Payments (Pembayaran)</h1>
                     </div>
                     
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
 
-                        <!-- Nav Item - Search Dropdown (Visible Only XS) -->
-                        <li class="nav-item dropdown no-arrow d-sm-none">
-                            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-search fa-fw"></i>
-                            </a>
-                            <!-- Dropdown - Messages -->
-                            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
-                                aria-labelledby="searchDropdown">
-                                <form class="form-inline mr-auto w-100 navbar-search">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control bg-light border-0 small"
-                                            placeholder="Search for..." aria-label="Search"
-                                            aria-describedby="basic-addon2">
-                                        <div class="input-group-append">
-                                            <button class="btn btn-primary" type="button">
-                                                <i class="fas fa-search fa-sm"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </li>
 
                         <div class="topbar-divider d-none d-sm-block"></div>
 
@@ -149,27 +133,6 @@
                                     <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->name }}</span>
                                 @endif
                             </a>
-                            <!-- Dropdown - User Information -->
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Profile
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Settings
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Activity Log
-                                </a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Logout
-                                </a>
-                            </div>
                         </li>
 
                     </ul>
@@ -179,49 +142,92 @@
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-                    <div class="table-responsive">
-                        <div class="table-wrapper">
-                            <div class="table-title">
-                                <div class="row">
-                                    <div class="col-sm-2 mb-2">
-                                        <p><a href="{{ route('admin.create_user') }}" class="text-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Insert New User</a></p>
+                    <div id="reservations-container" class="d-flex my-4">
+                        @if ($reservations->isEmpty())
+                            <p style="font-size: 12px" class="text-warning">[!] No data available</p>
+                        @else
+                            @foreach ($reservations as $r)
+                                <div class="card p-3 bg-white mr-3">
+                                    <i class="fa fa-apple"></i>
+                                    <div class="about-product text-center mt-2"><img src="../images/meditation.svg" width="100"></div>
+                                    <div class="stats mt-2" style="width: 300px">
+                                        <div class="d-flex justify-content-between p-price">
+                                            <span>User</span>
+                                            <span class="font-weight-bold">{{ $r->user->name }}</span>
+                                        </div>
+                                        <div class="d-flex justify-content-between p-price">
+                                            <span>Class</span>
+                                            <span class="font-weight-bold">{{ \App\Models\Classes::find($r->class_id)->name }}</span>
+                                        </div>
+                                        <div class="d-flex justify-content-between p-price">
+                                            <span>Date</span>
+                                            <span class="font-weight-bold">{{ $r->reservation_date }}</span>
+                                        </div>
+                                        <div class="d-flex justify-content-between p-price">
+                                            <span>Payment Status</span>
+                                            @php
+                                                $statusClass = '';
+                                                if ($r->payment->status == 'Not Paid') {
+                                                    $statusClass = 'text-warning';
+                                                } elseif ($r->payment->status == 'Already Paid') {
+                                                    $statusClass = 'text-primary';
+                                                } elseif ($r->payment->status == 'Verified') {
+                                                    $statusClass = 'text-success';
+                                                } else {
+                                                    $statusClass = 'text-danger';
+                                                }
+                                            @endphp
+                                            <span class="font-weight-bold {{ $statusClass }}">{{ $r->payment->status }}</span>
+                                        </div>
+                    
+                                        @if ($r->payment->status == 'Not Paid')
+                                            <form class="payment-form" action="{{ route('update.payment_admin.status', $r->payment->id) }}" method="POST">
+                                                @csrf
+                                                @method('PUT')
+                                                <p class="pay-now" style="font-size: 13px; float: right; margin-top: 30px; cursor: pointer; color: #3572EF">Verify Now ></p>
+                                            </form>
+                                        @elseif ($r->payment->status == 'Already Paid')
+                                            <form class="payment-form" action="{{ route('update.payment_admin.status', $r->payment->id) }}" method="POST">
+                                                @csrf
+                                                @method('PUT')
+                                                <p class="pay-now" style="font-size: 13px; float: right; margin-top: 30px; cursor: pointer; color: #3572EF">Verify Now ></p>
+                                            </form>
+                                        @else
+                                            <form class="reservation-form" action="{{ route('delete.reservation', $r->id) }}" method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <p class="delete-now" style="font-size: 13px; float: right; margin-top: 30px; cursor: pointer; color: #FF0000">Delete ></p>
+                                            </form>
+                                        @endif
                                     </div>
                                 </div>
-                            </div>
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Name</th>
-                                        <th>Email</th>
-                                        <th>Role</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($users as $key => $user)
-                                    <tr>
-                                        <td>{{ $key + 1 }}</td> <!-- Incremental number starting from 1 -->
-                                        <td>{{ $user->name }}</td>
-                                        <td>{{ $user->email }}</td>
-                                        <td>{{ $user->role }}</td>
-                                        <td>
-                                            <div class="row">
-                                                <a href="{{ route('admin.view_update_user', $user->id) }}"><button type="button" class="btn btn-outline-success mx-4">Update</button></a>
-                                                <form action="{{ route('admin.delete_user', $user->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this user?');">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-outline-danger">Delete</button>
-                                                </form>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    @endforeach     
-                                </tbody>
-                            </table>
-                        </div>
+                            @endforeach
+                        @endif        
+                    </div>
+                    
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            document.getElementById('reservations-container').addEventListener('click', function(event) {
+                                if (event.target.classList.contains('pay-now')) {
+                                    var confirmPayment = confirm('Are you sure you want to verify this payment?');
+                                    if (confirmPayment) {
+                                        event.target.closest('.payment-form').submit();
+                                    }
+                                }
+                    
+                                if (event.target.classList.contains('delete-now')) {
+                                    var confirmDelete = confirm('Are you sure you want to delete this reservation?');
+                                    if (confirmDelete) {
+                                        event.target.closest('.reservation-form').submit();
+                                    }
+                                }
+                            });
+                        });
+                    </script>
+                    
+                    
                 </div>
-  
+                        
 
         </div>
         <!-- End of Content Wrapper -->

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Insert New User</title>
+    <title>Insert New Coach</title>
 
     <!-- Font Icon -->
     <link rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css">
@@ -14,7 +14,7 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const form = document.getElementById('register-form');
+            const form = document.getElementById('insert');
             form.addEventListener('submit', function(event) {
                 // Menghentikan pengiriman form
                 event.preventDefault();
@@ -49,23 +49,18 @@
                     isValid = false;
                 }
 
-                // Validasi password
-                if (password.trim() === '') {
-                    document.getElementById('password-error').textContent = 'Password is required.';
-                    isValid = false;
-                } else if (password.length < 8) {
-                    document.getElementById('password-error').textContent = 'Password must be at least 8 characters.';
+                // Validasi phone
+                if (phone.trim() === '') {
+                    document.getElementById('phone-error').textContent = 'Phone is required.';
                     isValid = false;
                 }
 
-                // Validasi konfirmasi password
-                if (passwordConfirm.trim() === '') {
-                    document.getElementById('password-confirm-error').textContent = 'Confirm Password is required.';
-                    isValid = false;
-                } else if (password !== passwordConfirm) {
-                    document.getElementById('password-confirm-error').textContent = 'Passwords do not match.';
+                // Validasi specialization
+                if (specialization.trim() === '') {
+                    document.getElementById('specialization-error').textContent = 'Specialization is required.';
                     isValid = false;
                 }
+
 
                 // Jika validasi lolos, submit form
                 if (isValid) {
@@ -89,8 +84,8 @@
                     </div>
     
                     <div class="signup-form">
-                        <h2 class="form-title">Insert New User</h2>
-                        <form method="POST" class="register-form" id="register-form" action="{{ route('admin.insert_user') }}">
+                        <h2 class="form-title">Insert New Coach</h2>
+                        <form method="POST" class="register-form" id="register-form" action="{{ route('admin.insert_coach') }}">
                             @csrf
                             <div class="form-group">
                                 <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
@@ -103,17 +98,17 @@
                                 <span class="error" id="email-error"></span>
                             </div>
                             <div class="form-group">
-                                <label for="password"><i class="zmdi zmdi-lock"></i></label>
-                                <input type="password" name="password" id="password" placeholder="Password" required/>
-                                <span class="error" id="password-error"></span>
+                                <label for="phone"><i class="zmdi zmdi-phone"></i></label>
+                                <input type="text" name="phone" id="phone" placeholder="Phone" required/>
+                                <span class="error" id="phone-error"></span>
                             </div>
                             <div class="form-group">
-                                <label for="password-confirm"><i class="zmdi zmdi-lock-outline"></i></label>
-                                <input type="password" name="password_confirmation" id="password-confirm" placeholder="Confirm Password" required/>
-                                <span class="error" id="password-confirm-error"></span>
+                                <label for="specialization"><i class="zmdi zmdi-assignment"></i></label>
+                                <input type="text" name="specialization" id="specialization" placeholder="Specialization" required/>
+                                <span class="error" id="specialization-error"></span>
                             </div>
                             <div class="form-group form-button">
-                                <input type="submit" name="signup" id="signup" class="form-submit" value="Insert"/>
+                                <input type="submit" name="insert" id="insert" class="form-submit" value="Insert"/>
                             </div>
                         </form>
                     </div>

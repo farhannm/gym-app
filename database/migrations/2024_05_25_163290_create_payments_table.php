@@ -12,11 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('payments', function (Blueprint $table) {
-            $table->id('payment_id');
+            $table->id();
             $table->unsignedBigInteger('user_id');
             $table->decimal('amount', 10, 2);
             $table->date('payment_date');
-            $table->enum('status', ['Pending', 'Completed', 'Failed']);
+            $table->enum('status', ['Not Paid', 'Already Paid','Verified', 'Failed']);
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });

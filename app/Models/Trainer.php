@@ -21,6 +21,6 @@ class Trainer extends Model
 
     public function classes()
     {
-        return $this->hasMany(Classes::class, 'trainer_id');
+        return $this->hasMany(Classes::class, 'id');
     }
 }

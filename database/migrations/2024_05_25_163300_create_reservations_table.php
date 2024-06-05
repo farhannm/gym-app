@@ -11,14 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('reservation', function (Blueprint $table) {
-            $table->id('reservation_id');
+        Schema::create('reservations', function (Blueprint $table) {
+            $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('class_id');
+            $table->unsignedBigInteger('payment_id');
             $table->date('reservation_date');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('class_id')->references('class_id')->on('classes')->onDelete('cascade');
             $table->timestamps();
+
+            // Adding foreign key constraints
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('class_id')->references('id')->on('classes')->onDelete('cascade');
+            $table->foreign('payment_id')->references('id')->on('payments')->onDelete('cascade');
         });
     }
 
@@ -30,3 +34,4 @@ return new class extends Migration
         Schema::dropIfExists('reservations');
     }
 };
+
